@@ -1,0 +1,26 @@
+<?php
+/**
+ * @var $block \TGHP\FrontendEvents\Block\Js\Base
+ */
+$contextJson = $block->getContextJson();
+?>
+<script type="text/javascript">
+require([
+	'frontendEventManager'
+], function (
+	eventManager
+) {
+    var controllerData = <?php if ($contextJson): echo $contextJson; else: echo '{}'; endif ?>;
+    eventManager.dispatchEvent('controller_action_frontend', controllerData);
+	eventManager.dispatchEvent('controller_action_frontend_<?php echo $block->getRouteName() ?>', controllerData);
+	eventManager.dispatchEvent('controller_action_frontend_<?php echo $block->getFullActionName() ?>', controllerData);
+
+	eventManager.addObserver('*', function (data, eventName) {
+        console.log('[EVENT] ' + eventName);
+        this.resolve();
+	});
+})
+</script>
+<script type="text/x-magento-init">
+    <?php echo $block->getGlobalComponentsConfigJson() ?>
+</script>
