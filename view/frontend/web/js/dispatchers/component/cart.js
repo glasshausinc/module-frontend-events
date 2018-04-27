@@ -39,30 +39,29 @@ define([
 			$cart.data('cart-qty-hash', getCartQtyFingerprint(getCartQtys($cart)));
 		});
 
-		$cart.on('click', '.action-delete', function (e) {
-			var $this = $(this);
+        $cart.on('click', '.action-delete', function (e) {
+            var $this = $(this);
 
-			if($this.data('eventmanager-allow-event')) {
-				$this.data('eventmanager-allow-event', false);
-			} else {
-				e.stopImmediatePropagation();
-				e.preventDefault();
+            if($this.data('eventmanager-allow-event')) {
+                $this.data('eventmanager-allow-event', false);
+            } else {
+                e.stopImmediatePropagation();
+                e.preventDefault();
 
-				var dataPost = $this.data('post') ? $this.data('post').data : {};
+                var dataPost = {
+                    form: $this.data('post') ? $this.data('post').data : {},
+                    cart: customerData.get('cart')()
+                };
 
-				// TODO: get cart item from customerData('cart')
-				eventManager.dispatchEvent(
-					'checkout_cart_item_remove',
-					{
-						deleteActionData: dataPost
-					}
-				).done(function () {
-					$this.data('eventmanager-allow-event', true)
-						.click();
-				});
-			}
-		});
-
+                eventManager.dispatchEvent(
+                    'checkout_cart_item_remove', dataPost
+                ).done(function () {
+                    $this.data('eventmanager-allow-event', true)
+                        .click();
+                });
+            }
+        });
+        
 		$cart.on('submit.eventManagerCore', function (e) {
 			e.preventDefault();
 
