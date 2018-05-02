@@ -1,11 +1,13 @@
 define([
     'jquery',
     'underscore',
-    'frontendEventManager'
+    'frontendEventManager',
+    'Magento_Customer/js/customer-data'
 ], function (
     $,
     _,
-    eventManager
+    eventManager,
+    customerData
 ) {
 
     function getCartQtyFingerprint(qtys) {
