@@ -48,13 +48,11 @@ define([
                 e.stopImmediatePropagation();
                 e.preventDefault();
 
-                var dataPost = $this.data('post') ? $this.data('post').data : {};
-
-                // TODO: get cart item from customerData('cart')
                 eventManager.dispatchEvent(
                     'checkout_cart_item_remove',
                     {
-                        deleteActionData: dataPost
+                        form: $this.data('post') ? $this.data('post').data : {},
+                        cart: customerData.get('cart')()
                     }
                 ).done(function () {
                     $this.data('eventmanager-allow-event', true)
@@ -70,7 +68,8 @@ define([
                 eventManager.dispatchEvent(
                     'checkout_cart_update',
                     {
-                        form: $cart
+                        form: $cart,
+                        cart: customerData.get('cart')()
                     }
                 ).done(function () {
                     $cart.off('submit.eventManagerCore')
