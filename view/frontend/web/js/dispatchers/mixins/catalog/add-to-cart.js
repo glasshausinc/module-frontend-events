@@ -34,7 +34,9 @@ define([
         $.widget('mage.catalogAddToCart', widget, {
             _create: function () {
                 this._super();
-                initialCartDataXhr = this._loadCartData();
+                if(!initialCartDataXhr) {
+                    initialCartDataXhr = this._loadCartData();
+                }
             },
 
             _loadCartData: function () {
