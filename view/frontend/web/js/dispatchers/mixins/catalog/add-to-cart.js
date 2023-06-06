@@ -27,6 +27,7 @@ define([
                 form: form,
                 formData: addToCartFormData,
                 productSku: form.data('productSku'),
+                googleTagManager: form.data('googleTagManager'),
                 cart: customerData.get('cart')()
             }
         };
